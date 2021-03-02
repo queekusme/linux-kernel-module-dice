@@ -1,0 +1,12 @@
+.vagrant
+
+src/Module.symvers
+src/modules.order
+src/.tmp_versions
+src/.cache.mk
+
+**/*.o
+**/*.mod.c
+**/*.cmd
+
+*.ko
