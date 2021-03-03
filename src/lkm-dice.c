@@ -28,44 +28,44 @@ static ssize_t device_read(struct file *, char *, size_t, loff_t *);
 static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
 
 static struct file_operations fops = {
-	.read = device_read,
-	.write = device_write,
-	.open = device_open,
-	.release = device_release
+    .read = device_read,
+    .write = device_write,
+    .open = device_open,
+    .release = device_release
 };
 
 static int __init lkm_dice_init(void)
 {
     majorId = register_chrdev(0, DEVICE_NAME, &fops);
 
-	if (majorId < 0) {
-	  printk(KERN_ALERT "[DICE] Registering char device failed with %d\n", majorId);
-	  return majorId;
-	}
+    if (majorId < 0) {
+      printk(KERN_ALERT "[DICE] Registering char device failed with %d\n", majorId);
+      return majorId;
+    }
 
-	printk(KERN_INFO "[DICE] Major ID %d assigned\n", majorId);
+    printk(KERN_INFO "[DICE] Major ID %d assigned\n", majorId);
 
-	return SUCCESS;
+    return SUCCESS;
 }
 
 static void __exit lkm_dice_exit(void)
 {
-	unregister_chrdev(majorId, DEVICE_NAME);
+    unregister_chrdev(majorId, DEVICE_NAME);
 
-	printk(KERN_ALERT "[DICE] Dice unregistered");
+    printk(KERN_ALERT "[DICE] Dice unregistered");
 }
 
 static int device_open(struct inode *inode, struct file *file)
 {
     uint i, dice;
 
-	if (in_use)
-		return -EBUSY;
+    if (in_use)
+        return -EBUSY;
 
-	in_use++;
+    in_use++;
 
     // Notify Kernel we are in use
-	try_module_get(THIS_MODULE);
+    try_module_get(THIS_MODULE);
 
     // Generate random number for this roll
     dice = 6;
@@ -74,19 +74,19 @@ static int device_open(struct inode *inode, struct file *file)
 
     // Move ascii data to asciiDiceRoll buffer
     snprintf(asciiDiceRoll, DICE_ASCII_SIZE, "%d\n", diceRoll);
-	msg_Ptr = asciiDiceRoll;
+    msg_Ptr = asciiDiceRoll;
 
-	return SUCCESS;
+    return SUCCESS;
 }
 
 static int device_release(struct inode *inode, struct file *file)
 {
-	in_use--;
+    in_use--;
 
     // Notify Kernel we are no longer in use
-	module_put(THIS_MODULE);
+    module_put(THIS_MODULE);
 
-	return SUCCESS;
+    return SUCCESS;
 }
 
 /*  
@@ -95,37 +95,37 @@ static int device_release(struct inode *inode, struct file *file)
 static ssize_t device_read(struct file *filp, char *buffer, size_t length, loff_t * offset)
 {
 
-	/*
-	 * Number of bytes actually written to the buffer 
-	 */
-	int bytes_read = 0;
+    /*
+     * Number of bytes actually written to the buffer 
+     */
+    int bytes_read = 0;
 
-	/*
-	 * If we're at the end of the message, 
-	 * return 0 signifying end of file 
-	 */
-	if (*msg_Ptr == 0)
-		return 0;
+    /*
+     * If we're at the end of the message, 
+     * return 0 signifying end of file 
+     */
+    if (*msg_Ptr == 0)
+        return 0;
 
-	/* 
-	 * Actually put the data into the buffer 
-	 */
-	while (length && *msg_Ptr)
+    /* 
+     * Actually put the data into the buffer 
+     */
+    while (length && *msg_Ptr)
     {
 
-		/* 
-		 * The buffer is in the user data segment, not the kernel 
-		 * segment so "*" assignment won't work.  We have to use 
-		 * put_user which copies data from the kernel data segment to
-		 * the user data segment. 
-		 */
-		put_user(*(msg_Ptr++), buffer++);
+        /* 
+         * The buffer is in the user data segment, not the kernel 
+         * segment so "*" assignment won't work.  We have to use 
+         * put_user which copies data from the kernel data segment to
+         * the user data segment. 
+         */
+        put_user(*(msg_Ptr++), buffer++);
 
-		length--;
-		bytes_read++;
-	}
+        length--;
+        bytes_read++;
+    }
 
-	return bytes_read;
+    return bytes_read;
 }
 
 /*  
@@ -133,7 +133,7 @@ static ssize_t device_read(struct file *filp, char *buffer, size_t length, loff_
  */
 static ssize_t device_write(struct file *filp, const char *buff, size_t len, loff_t * off)
 {
-	return -EINVAL;
+    return -EINVAL;
 }
 
 module_init(lkm_dice_init);
