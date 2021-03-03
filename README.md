@@ -8,7 +8,7 @@ This Vagrant box is setup to use Ubuntu Bionic (18.04.5) 64Bit, as well as use A
 If you are using a clean linux machine the following commands can be run to install the required dependencies
 
 ```bash
-sudo apt-get install libelf-dev build-essential inux-headers-$(uname -r)
+sudo apt-get install libelf-dev build-essential linux-headers-$(uname -r)
 ```
 
 You may need to adapt your install command if your distribution does not include apt, or package names vary
