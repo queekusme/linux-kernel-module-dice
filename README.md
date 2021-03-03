@@ -16,6 +16,9 @@ You may need to adapt your install command if your distribution does not include
 # Installation
 To install the module, perform the following commands. Root may be required depending on your setup. modprobe may also be required in place of insmod and rmmod depending on your system.
 
+## Install
+Once compiled, the Kernel Module can be installed using the following command
+
 ```bash
 insmod lkm-dice.ko
 ```
@@ -32,7 +35,14 @@ where `<major>` is the major number which can be found by running
 dmesg
 ```
 
-To uninstall the module:
+## Uninstall
+To remove the device in the /dev folder, you can remove the file using the rm command, e.g.
+
+```bash
+rm /dev/dice
+```
+
+To uninstall the module, the following command can be executed
 
 ```bash
 rmmod lkm-dice.ko
