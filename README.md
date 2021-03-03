@@ -12,3 +12,16 @@ sudo apt-get install libelf-dev build-essential inux-headers-$(uname -r)
 ```
 
 You may need to adapt your install command if your distribution does not include apt, or package names vary
+
+# Installation
+To install the module, perform the following commands. Root may be required depending on your setup. modprobe may also be required in place of insmod and rmmod depending on your system.
+
+```bash
+insmod lkm-dice.ko
+```
+
+To uninstall the module:
+
+```bash
+rmmod lkm-dice.ko
+```
