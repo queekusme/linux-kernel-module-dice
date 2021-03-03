@@ -15,7 +15,7 @@ MODULE_VERSION("0.1");
 #define DICE_ASCII_SIZE 3
 
 static int majorId;		    /* Major number assigned */
-static int in_use = 0;	/* Device In Use? */
+static int in_use = 0;	    /* Device In Use? */
 static int diceRoll = 0;
 
 // 0 terminated ascii character
