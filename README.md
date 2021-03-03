@@ -20,6 +20,18 @@ To install the module, perform the following commands. Root may be required depe
 insmod lkm-dice.ko
 ```
 
+To add the character device manually, the following command can be used
+
+```bash
+mknod /dev/dice c <major> 0
+```
+
+where `<major>` is the major number which can be found by running
+
+```bash
+dmesg
+```
+
 To uninstall the module:
 
 ```bash
